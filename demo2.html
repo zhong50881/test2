@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+ <head>
+ <meta charset="UTF-8">
+ <title>图片懒加载(可视区域加载)</title>
+ <style>
+  * {
+  padding: 0px;
+  margin: 0px;
+  }
+   
+  html,
+  body {
+  width: 100%;
+  min-height: 100%;
+  }
+   
+  #SB {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  }
+   
+  #SB .in {
+  border: 1px solid red;
+  margin: 10px;
+  text-align: center;
+  height: 400px;
+  width: 400px;
+  float: left;
+  }
+   
+  .in img {
+  border: none;
+  vertical-align: middle;
+  height: 400px;
+  width: 400px;
+  }
+ </style>
+ </head>
+ 
+ <body>
+ <ul id="BS">
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/1.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/2.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/3.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/4.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/5.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/6.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/7.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/8.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/9.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/10.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/11.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/12.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/13.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/14.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/15.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/16.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/1.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/2.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/3.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/4.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/5.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/6.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/7.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/8.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/9.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/10.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/11.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/12.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/13.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/14.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/15.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/16.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/1.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/2.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/3.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/4.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/5.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/6.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/7.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/8.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/9.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/10.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/11.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/12.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/13.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/14.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/15.jpg"></li>
+  <li class="in"><img src="img/1.jpg" data-imgurl="img/16.jpg"></li>
+ </ul>
+ <script type="text/javascript">
+  function getImg (config) {
+
+    this.Default = {
+      id: "SB",
+      time: 500,
+      a : function() {
+        var a = 1;
+      }
+    }
+
+    this.Default = config;
+
+    console.log(this.Default);
+    console.log(config);
+    var imgList = document.getElementById(this.Default.id).getElementsByTagName('img');
+    console.log(this);
+    this._loadImg(imgList);
+    var _this = this;
+    window.onscroll = function () {
+       _this._loadImg(imgList);
+    }
+  }
+
+  getImg.prototype = {
+
+    _loadImg: function (arr) {
+      var _this = this;
+      for (var i = 0, len = arr.length; i < len; i++) {
+
+        if (arr[i].getBoundingClientRect().top < document.documentElement.clientHeight && !arr[i].isLoad) {
+
+          arr[i].isLoad = true;
+
+          (function (i) {
+
+            window.setTimeout(function () {
+              if (arr[i].dataset) {
+                _this._aftImg(arr[i], arr[i].dataset.imgurl);
+              }
+              else {
+                _this._aftImg(arr[i], arr[i].getAttribute('data-imgurl'));
+              }
+
+              arr[i].style.cssText = "transition: 1s; opacity: 1;";
+            }, _this.Default.time);
+
+          })(i);
+        }
+      }
+    },
+
+    _aftImg: function (obj,url) {
+      var oImg = new Image();
+
+      oImg.onload = function () {
+        obj.src = oImg.src;
+      }
+
+      oImg.src = url;
+    }
+  }
+
+
+ var abc =  new getImg({
+  id: "BS",
+  b: function() {
+    var c = 4;
+  }
+ });
+ </script>
+ </body>
+ 
+</html>
